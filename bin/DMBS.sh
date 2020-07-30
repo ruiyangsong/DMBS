@@ -15,7 +15,7 @@ echo -e "pwd: `pwd`\n"
 # some static directories, input file (seq.fasta, mut_pos.txt and mut_res.txt) should be placed in $OUTDIR in advance
 #
 INTERVAL=300
-COUNTMAX=24
+COUNTMAX=120
 DATANAME=$1
 BINDIR=/public/home/$USER/DMBS/src/bin
 MDLDIR=/public/home/$USER/DMBS/model
