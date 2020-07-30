@@ -59,9 +59,9 @@ g.close()
 os.system("chmod 755 %s" %run_prog)
 
 # os.system(queue)
-MYMAX=150
-TOTALMAX=300
-INTERVAL=30
+MYMAX=120
+TOTALMAX=384
+INTERVAL=10
 while True:
     jobs = int(os.popen('/usr/local/bin/qstat -u sry |wc -l').readline())
     total_jobs = int(os.popen('/usr/local/bin/qstat |wc -l').readline())

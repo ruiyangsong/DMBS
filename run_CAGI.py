@@ -4,7 +4,7 @@ import pandas as pd
 aa_123dict = {'A': 'ALA', 'R': 'ARG', 'N': 'ASN', 'D': 'ASP', 'C': 'CYS', 'Q': 'GLN', 'E': 'GLU', 'G': 'GLY', 'H': 'HIS', 'I': 'ILE',
               'L': 'LEU', 'K': 'LYS', 'M': 'MET', 'F': 'PHE', 'P': 'PRO', 'S': 'SER', 'T': 'THR', 'W': 'TRP', 'Y': 'TYR', 'V': 'VAL'}
 app='/public/home/sry/DMBS/src/bin/DMBS.sh'
-queue='/public/home/sry/bin/getQ.pl'
+queue='/public/home/sry/DMBS/src/bin/getQ.pl'
 outdir = '/public/home/sry/DMBS/output'
 CAGI_dir = '/public/home/sry/DMBS/dataset/CAGI'
 seq_lst_pth = '{CAGI_dir}/seq.lst'.format(CAGI_dir=CAGI_dir)
@@ -43,7 +43,8 @@ for seq_name in seq_name_lst:
         pattern = re.compile(" " + tag + " ")
         result = pattern.findall(string)
         if result:
-            exit("job {tag} already running".format(tag=tag))
+            print("job {tag} already running".format(tag=tag))
+            continue
 
         g = open(run_prog, 'w')
         g.writelines('#!/usr/bin/env bash\n')
@@ -55,6 +56,6 @@ for seq_name in seq_name_lst:
         
         os.system('chmod +x {run_prog}'.format(run_prog=run_prog))
         os.system(queue)
-        os.popen('qsub -e {err} -o {out} -l {walltime} -N {tag} {prog}'.format(err=err,out=out,walltime=walltime,tag=tag,prog=run_prog))
+        os.system('qsub -e {err} -o {out} -l {walltime} -N {tag} {prog}'.format(err=err,out=out,walltime=walltime,tag=tag,prog=run_prog))
         print('{run_prog} successfully submitted!'.format(run_prog=run_prog))
         time.sleep(1)
