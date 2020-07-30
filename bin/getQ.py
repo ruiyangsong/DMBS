@@ -8,7 +8,6 @@ INTERVAL=10
 while True:
     jobs = int(os.popen('/usr/local/bin/qstat -u {USER} |wc -l'.format(USER=USER)).readline())
     total_jobs = int(os.popen('/usr/local/bin/qstat |wc -l').readline())
-    print(jobs)
     if jobs <= MYMAX:
         break
     elif total_jobs < TOTALMAX:
