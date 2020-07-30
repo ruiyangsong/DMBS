@@ -50,7 +50,7 @@ for seq_name in seq_name_lst:
         g.writelines('#!/usr/bin/env bash\n')
         g.writelines("echo 'user:' `whoami`\necho 'hostname:' `hostname`\necho 'begin at:' `date`\n")
         g.writelines("echo 'pwd:' `pwd`\n")
-        g.writelines('{app} {seq_name}.{pos}{wt}\n'.format(app=app,seq_name=seq_name,pos=pos,wt=wt))
+        g.writelines('{app} {seq_name}.{pos}{wt} > {qsub_dir}/run.log\n'.format(app=app,seq_name=seq_name,pos=pos,wt=wt,qsub_dir=qsub_dir))
         g.writelines("echo 'end at:' `date`\n")
         g.close()
         
