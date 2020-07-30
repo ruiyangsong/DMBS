@@ -61,15 +61,20 @@ FILTEREDBLAALN=$OUTDIR/seq_bla_filtered.aln
 
 PSSM_BLA=$OUTDIR/seq_bla.pssm
 HHW_BLA=$OUTDIR/seq_bla.hhw
-$BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $OUTDIR/seq.fasta $OUTDIR $DATANAME $OUTBLA $QUEUE $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
-    echo '[ERROR!] qsub PSI-BLAST for native sequence failed, check log dir at $OUTDIR for details'
-    exit
-}
+if [ ! -e $OUTDIR/seq_bla.pssm ] || [ ! -e $OUTDIR/seq_bla.hhw ]
+then
+    $BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $OUTDIR/seq.fasta $OUTDIR $DATANAME $OUTBLA $QUEUE $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
+        echo '[ERROR!] qsub PSI-BLAST for native sequence failed, check log dir at $OUTDIR for details'
+        exit
+    }
+else
+    echo "[WARNING!] qsub PSI-BLAST canceled as seq_bla.pssm and seq_bla.hhw already exist at $OUTDIR"
+fi
 
 #
 # HH-BLITS
 #
-echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> qsub HHBLITS for native sequence, see the log dir at $OUTDIR for details"
+echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> qsub HH-BLITS for native sequence, see the log dir at $OUTDIR for details"
 OUTA3M=$OUTDIR/seq.a3m
 OUTHHM=$OUTDIR/seq.hhm
 
@@ -81,10 +86,15 @@ FILTEREDA3MALN=$OUTDIR/seq_hhm_filtered.aln
 
 PSSM_A3M=$OUTDIR/seq_hhm.pssm
 HHW_A3M=$OUTDIR/seq_hhm.hhw
-$BINDIR/run_hhblits.py $HHBLITS_APP $HHBLITS_LIB $OUTDIR/seq.fasta $OUTDIR $DATANAME $OUTA3M $OUTHHM $QUEUE $OUTA3MALN $BINDIR/convert_aln.pl $TEMPA3M $HHFILTER_APP $FILTEREDA3M $FILTEREDA3MALN $BINDIR/make_pssm.py $PSSM_A3M $HHW_A3M $BINDIR/hhblits_mod.py || {
-    echo '[ERROR!] qsub HHBLITS for native sequence failed, check log dir at $OUTDIR for details'
-    exit
-}
+if [ ! -e $OUTDIR/seq_hhm.pssm ] || [ ! -e $OUTDIR/seq_hhm.hhw ]
+then
+    $BINDIR/run_hhblits.py $HHBLITS_APP $HHBLITS_LIB $OUTDIR/seq.fasta $OUTDIR $DATANAME $OUTA3M $OUTHHM $QUEUE $OUTA3MALN $BINDIR/convert_aln.pl $TEMPA3M $HHFILTER_APP $FILTEREDA3M $FILTEREDA3MALN $BINDIR/make_pssm.py $PSSM_A3M $HHW_A3M $BINDIR/hhblits_mod.py || {
+        echo '[ERROR!] qsub HHBLITS for native sequence failed, check log dir at $OUTDIR for details'
+        exit
+    }
+else
+    echo "[WARNING!] qsub HH-BLITS canceled as seq_hhm.pssm and seq_hhm.hhw already exist at $OUTDIR"
+fi
 
 #-----------------------------------------------------------------------------------------------------------------------s
 #
@@ -133,10 +143,15 @@ do
 
     PSSM_BLA=$MUTDIR/mut_bla.pssm
     HHW_BLA=$MUTDIR/mut_bla.hhw
-    $BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $MUTDIR/mut.fasta $MUTDIR $MUTNAME $OUTBLA $QUEUE $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
-        echo '[ERROR!] qsub PSI-BLAST for $MUTNAME sequence failed, check log dir at $MUTDIR for details'
-        exit
-    }
+    if [ ! -e $MUTDIR/mut_bla.pssm ] || [ ! -e $MUTDIR/mut_bla.hhw ]
+    then
+        $BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $MUTDIR/mut.fasta $MUTDIR $MUTNAME $OUTBLA $QUEUE $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
+            echo '[ERROR!] qsub PSI-BLAST for $MUTNAME sequence failed, check log dir at $MUTDIR for details'
+            exit
+        }
+    else
+        echo "[WARNING!] qsub PSI-BLAST canceled as mut_bla.pssm and mut_bla.hhw already exist at $MUTDIR"
+    fi
 
     #
     # HH-BLITS
@@ -153,10 +168,15 @@ do
 
     PSSM_A3M=$MUTDIR/mut_hhm.pssm
     HHW_A3M=$MUTDIR/mut_hhm.hhw
-    $BINDIR/run_hhblits.py $HHBLITS_APP $HHBLITS_LIB $MUTDIR/mut.fasta $MUTDIR $MUTNAME $OUTA3M $OUTHHM $QUEUE $OUTA3MALN $BINDIR/convert_aln.pl $TEMPA3M $HHFILTER_APP $FILTEREDA3M $FILTEREDA3MALN $BINDIR/make_pssm.py $PSSM_A3M $HHW_A3M $BINDIR/hhblits_mod.py || {
-        echo '[ERROR!] qsub HH-BLITS for $MUTNAME sequence failed, check log dir at $MUTDIR for details'
-        exit
-    }
+    if [ ! -e $MUTDIR/mut_hhm.pssm ] || [ ! -e $MUTDIR/mut_hhm.hhw ]
+    then
+        $BINDIR/run_hhblits.py $HHBLITS_APP $HHBLITS_LIB $MUTDIR/mut.fasta $MUTDIR $MUTNAME $OUTA3M $OUTHHM $QUEUE $OUTA3MALN $BINDIR/convert_aln.pl $TEMPA3M $HHFILTER_APP $FILTEREDA3M $FILTEREDA3MALN $BINDIR/make_pssm.py $PSSM_A3M $HHW_A3M $BINDIR/hhblits_mod.py || {
+            echo '[ERROR!] qsub HH-BLITS for $MUTNAME sequence failed, check log dir at $MUTDIR for details'
+            exit
+        }
+    else
+        echo "[WARNING!] qsub HH-BLITS canceled as mut_hhm.pssm and mut_hhm.hhw already exist at $MUTDIR"
+    fi
 done
 
 #
