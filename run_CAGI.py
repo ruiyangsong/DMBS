@@ -57,5 +57,6 @@ for seq_name in seq_name_lst:
         os.system('chmod +x {run_prog}'.format(run_prog=run_prog))
         os.system(queue)
         os.system('qsub -e {err} -o {out} -l {walltime} -N {tag} {prog}'.format(err=err,out=out,walltime=walltime,tag=tag,prog=run_prog))
-        print('{run_prog} successfully submitted!'.format(run_prog=run_prog))
+        strf = time.strftime("%Y-%m-%d %H:%M:%S")
+        print('[{strf}] {run_prog} successfully submitted!'.format(strf=strf, run_prog=run_prog))
         time.sleep(5)
