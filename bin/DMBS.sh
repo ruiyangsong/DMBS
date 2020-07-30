@@ -21,7 +21,7 @@ BINDIR=/public/home/$USER/DMBS/src/bin
 MDLDIR=/public/home/$USER/DMBS/model
 OUTDIR=/public/home/$USER/DMBS/output/$DATANAME
 #TMPDIR=/tmp/DMBS/$DATANAME
-QUEUE=/public/home/$USER/bin/getQ.pl
+QUEUE=$BINDIR/getQ.pl
 # psi-blast
 PSIBLAST_APP=/public/home/caobx/local/app/blast/bin/psiblast
 PSIBLAST_LIB=/library/uniref100/uniref100
@@ -86,7 +86,7 @@ $BINDIR/run_hhblits.py $HHBLITS_APP $HHBLITS_LIB $OUTDIR/seq.fasta $OUTDIR $DATA
     exit
 }
 
-
+#-----------------------------------------------------------------------------------------------------------------------s
 #
 # make mutation
 #

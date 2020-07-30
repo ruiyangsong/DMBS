@@ -57,21 +57,7 @@ g.write(a)
 g.close()
 
 os.system("chmod 755 %s" %run_prog)
-
-# os.system(queue)
-MYMAX=120
-TOTALMAX=384
-INTERVAL=10
-while True:
-    jobs = int(os.popen('/usr/local/bin/qstat -u sry |wc -l').readline())
-    total_jobs = int(os.popen('/usr/local/bin/qstat |wc -l').readline())
-    if jobs < MYMAX:
-        break
-    elif total_jobs < TOTALMAX:
-        break
-    else:
-        time.sleep(INTERVAL)
-
+os.system("/usr/bin/perl {queue}".format(queue=queue))
 os.system("/usr/local/bin/qsub -e %s -o %s -l %s -N %s %s" %(err,out,walltime,tag,run_prog))
 print('{run_prog} successfully submitted!'.format(run_prog=run_prog))
 time.sleep(1)
