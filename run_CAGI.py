@@ -4,7 +4,7 @@ import pandas as pd
 aa_123dict = {'A': 'ALA', 'R': 'ARG', 'N': 'ASN', 'D': 'ASP', 'C': 'CYS', 'Q': 'GLN', 'E': 'GLU', 'G': 'GLY', 'H': 'HIS', 'I': 'ILE',
               'L': 'LEU', 'K': 'LYS', 'M': 'MET', 'F': 'PHE', 'P': 'PRO', 'S': 'SER', 'T': 'THR', 'W': 'TRP', 'Y': 'TYR', 'V': 'VAL'}
 app='/public/home/sry/DMBS/src/bin/DMBS.sh'
-queue='/public/home/sry/DMBS/src/bin/getQ.pl'
+queue='/public/home/sry/DMBS/src/bin/getQ.py'
 outdir = '/public/home/sry/DMBS/output'
 CAGI_dir = '/public/home/sry/DMBS/dataset/CAGI'
 seq_lst_pth = '{CAGI_dir}/seq.lst'.format(CAGI_dir=CAGI_dir)
