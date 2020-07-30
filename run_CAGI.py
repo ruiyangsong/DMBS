@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import os,time,re
+import os,sys,time,re
 import pandas as pd
 aa_123dict = {'A': 'ALA', 'R': 'ARG', 'N': 'ASN', 'D': 'ASP', 'C': 'CYS', 'Q': 'GLN', 'E': 'GLU', 'G': 'GLY', 'H': 'HIS', 'I': 'ILE',
               'L': 'LEU', 'K': 'LYS', 'M': 'MET', 'F': 'PHE', 'P': 'PRO', 'S': 'SER', 'T': 'THR', 'W': 'TRP', 'Y': 'TYR', 'V': 'VAL'}
@@ -17,6 +17,7 @@ for seq_name in seq_name_lst:
     csv_pth = '{CAGI_dir}/{seq_name}.csv'.format(CAGI_dir=CAGI_dir,seq_name=seq_name)
     df = pd.read_csv(csv_pth,low_memory=False)
     print('\n{seq_name}: {_len} mutations'.format(seq_name=seq_name,_len=len(df)))
+    sys.stdout.flush()
     for pos in set(df.position.values):
         wt = df.loc[df.position==pos,'start'].values[0]
         mt = [x for x in df.loc[df.position==pos,'end'].values if x in aa_123dict.keys()]
@@ -44,6 +45,7 @@ for seq_name in seq_name_lst:
         result = pattern.findall(string)
         if result:
             print("job {tag} already running".format(tag=tag))
+            sys.stdout.flush()
             continue
 
         g = open(run_prog, 'w')
@@ -59,4 +61,5 @@ for seq_name in seq_name_lst:
         os.system('qsub -e {err} -o {out} -l {walltime} -N {tag} {prog}'.format(err=err,out=out,walltime=walltime,tag=tag,prog=run_prog))
         strf = time.strftime("%Y-%m-%d %H:%M:%S")
         print('[{strf}] {run_prog} successfully submitted!'.format(strf=strf, run_prog=run_prog))
+        sys.stdout.flush()
         time.sleep(5)
