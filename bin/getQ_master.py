@@ -13,7 +13,7 @@ TOTALMAX=384  ##change this to the maximum number of jobs by all users
 INTERVAL=30
 JOBPERNODE=2  ##change this to the maximum number of special jobs by all users on each node
 
-## Queue overall jobs
+## queue overall jobs
 while True:
     jobs = int(os.popen('/usr/local/bin/qstat -u {USER} |wc -l'.format(USER=USER)).readline())
     total_jobs = int(os.popen('/usr/local/bin/qstat |wc -l').readline())
@@ -24,7 +24,7 @@ while True:
     else:
         time.sleep(INTERVAL)
 
-## Queue special jobs. They condition is that each node can only submit "JOBPERNODE" special jobs
+## queue special jobs
 while True:
     pattern = re.compile(JOBTAGPRE)
     # up_nodes  = [line.split()[0] for line in os.popen('/usr/local/bin/pbsnodes -l up').readlines()]
