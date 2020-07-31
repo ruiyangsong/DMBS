@@ -8,8 +8,8 @@ if len(sys.argv) == 1:
 JOBTAGPRE=sys.argv[1] # prefix of special Job_Names that you want to monitor
 
 USER="sry"
-MYMAX=25     ##change this to the maximum number of jobs by you
-TOTALMAX=32  ##change this to the maximum number of jobs by all users
+MYMAX=80     ##change this to the maximum number of jobs by you
+TOTALMAX=384  ##change this to the maximum number of jobs by all users
 INTERVAL=30
 JOBPERNODE=2  ##change this to the maximum number of special jobs by all users on each node
 
