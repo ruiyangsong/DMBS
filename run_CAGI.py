@@ -5,7 +5,7 @@ aa_123dict = {'A': 'ALA', 'R': 'ARG', 'N': 'ASN', 'D': 'ASP', 'C': 'CYS', 'Q': '
               'L': 'LEU', 'K': 'LYS', 'M': 'MET', 'F': 'PHE', 'P': 'PRO', 'S': 'SER', 'T': 'THR', 'W': 'TRP', 'Y': 'TYR', 'V': 'VAL'}
 
 
-app='/public/home/sry/DMBS/src/bin/PSI_HH.sh'
+app='/public/home/sry/DMBS/src/bin/DMBS.sh'
 
 
 queue='/public/home/sry/DMBS/src/bin/getQ.py'
