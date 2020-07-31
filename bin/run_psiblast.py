@@ -15,7 +15,7 @@ tag_pre  = "psi."
 tag      = tag_pre + "{name}".format(name=data_name)
 err      = "{logdir}/err".format(logdir=logdir)
 out      = "{logdir}/out".format(logdir=logdir)
-resource = "walltime=24:00:00"
+resource = "walltime=10:00:00"
 run_prog = "{logdir}/run_prog.sh".format(logdir=logdir)
 
 
