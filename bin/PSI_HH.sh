@@ -205,38 +205,38 @@ done
 
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-# This loop for integrating features that pre-calculated by PSI-BLAST and HH-BLITS for each mutation
-# ----------------------------------------------------------------------------------------------------------------------
-for MT in `echo $MUT | awk -F "" '{for (i=1;i<=NF;i++){print($i)}}'`;
-do
-    [ $MT = $WT ] && continue
-    MUTDIR=$OUTDIR/$MT
-    TIMEOUT=1
-    while [ $TIMEOUT -le $COUNTMAX ] && ([ ! -e $OUTDIR/seq_bla.pssm ] || [ ! -e $OUTDIR/seq_bla.hhw ] || [ ! -e $OUTDIR/seq_hhm.pssm ] || [ ! -e $OUTDIR/seq_hhm.hhw ] || [ ! -e $MUTDIR/mut_bla.pssm ] || [ ! -e $MUTDIR/mut_bla.hhw ]  || [ ! -e $MUTDIR/mut_hhm.pssm ] || [ ! -e $MUTDIR/mut_hhm.hhw ])
-    do
-        echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> check whether PSI-BLAST and HH-BLITS are done properly, current TIMEOUT is $TIMEOUT"
-        sleep $INTERVAL
-        let TIMEOUT+=1
-    done
-    [ $TIMEOUT -le $COUNTMAX ] || {
-        echo "[TIMEOUT!] wait PSI-BLAST and HH-BLITS timeout, INTERVAL is $INTERVAL, COUNTMAX is $COUNTMAX"
-        exit
-    }
-    echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> integrate pre-calculated sequence-based features"
-    [ -e $MUTDIR/DMBS_feature.csv ] || {
-        $BINDIR/integrate.py $POS $MT $OUTDIR $BINDIR/BLOSUM62.txt || {
-            echo "[ERROR!] integrate features failed, current mutation is $WT at pos_$POS to $MT"
-            exit
-        }
-    }
-done
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Make prediction
-# ----------------------------------------------------------------------------------------------------------------------
-echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> make prediction by model at $MDLDIR"
-[ -e $OUTDIR/pred_all.txt ] || $BINDIR/pred.py $OUTDIR $PREPARED $MDLDIR/var.pickle
+## ----------------------------------------------------------------------------------------------------------------------
+## This loop for integrating features that pre-calculated by PSI-BLAST and HH-BLITS for each mutation
+## ----------------------------------------------------------------------------------------------------------------------
+#for MT in `echo $MUT | awk -F "" '{for (i=1;i<=NF;i++){print($i)}}'`;
+#do
+#    [ $MT = $WT ] && continue
+#    MUTDIR=$OUTDIR/$MT
+#    TIMEOUT=1
+#    while [ $TIMEOUT -le $COUNTMAX ] && ([ ! -e $OUTDIR/seq_bla.pssm ] || [ ! -e $OUTDIR/seq_bla.hhw ] || [ ! -e $OUTDIR/seq_hhm.pssm ] || [ ! -e $OUTDIR/seq_hhm.hhw ] || [ ! -e $MUTDIR/mut_bla.pssm ] || [ ! -e $MUTDIR/mut_bla.hhw ]  || [ ! -e $MUTDIR/mut_hhm.pssm ] || [ ! -e $MUTDIR/mut_hhm.hhw ])
+#    do
+#        echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> check whether PSI-BLAST and HH-BLITS are done properly, current TIMEOUT is $TIMEOUT"
+#        sleep $INTERVAL
+#        let TIMEOUT+=1
+#    done
+#    [ $TIMEOUT -le $COUNTMAX ] || {
+#        echo "[TIMEOUT!] wait PSI-BLAST and HH-BLITS timeout, INTERVAL is $INTERVAL, COUNTMAX is $COUNTMAX"
+#        exit
+#    }
+#    echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> integrate pre-calculated sequence-based features"
+#    [ -e $MUTDIR/DMBS_feature.csv ] || {
+#        $BINDIR/integrate.py $POS $MT $OUTDIR $BINDIR/BLOSUM62.txt || {
+#            echo "[ERROR!] integrate features failed, current mutation is $WT at pos_$POS to $MT"
+#            exit
+#        }
+#    }
+#done
+#
+## ----------------------------------------------------------------------------------------------------------------------
+## Make prediction
+## ----------------------------------------------------------------------------------------------------------------------
+#echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> make prediction by model at $MDLDIR"
+#[ -e $OUTDIR/pred_all.txt ] || $BINDIR/pred.py $OUTDIR $PREPARED $MDLDIR/var.pickle
 
 
 
