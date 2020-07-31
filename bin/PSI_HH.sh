@@ -22,7 +22,7 @@ MDLDIR=/public/home/$USER/DMBS/model
 OUTDIR=/public/home/$USER/DMBS/output/$DATANAME
 #TMPDIR=/tmp/DMBS/$DATANAME
 QUEUE=$BINDIR/getQ.py
-QUEUE_PSI=$BINDIR/getQ.psi.py
+QUEUE_PSI=$BINDIR/getQ_pro.py
 # psi-blast
 PSIBLAST_APP=/public/home/caobx/local/app/blast/bin/psiblast
 PSIBLAST_LIB=/library/uniref100/uniref100
