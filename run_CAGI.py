@@ -1,17 +1,23 @@
 #!/usr/bin/python
 import os,sys,time,re
 import pandas as pd
-aa_123dict = {'A': 'ALA', 'R': 'ARG', 'N': 'ASN', 'D': 'ASP', 'C': 'CYS', 'Q': 'GLN', 'E': 'GLU', 'G': 'GLY', 'H': 'HIS', 'I': 'ILE',
-              'L': 'LEU', 'K': 'LYS', 'M': 'MET', 'F': 'PHE', 'P': 'PRO', 'S': 'SER', 'T': 'THR', 'W': 'TRP', 'Y': 'TYR', 'V': 'VAL'}
+
+if len(sys.argv) == 1:
+    print("Usage: {filename} [app_name]".format(filename=sys.argv[0]))
+    exit(0)
+app_name=sys.argv[1]
 
 
-app='/public/home/sry/DMBS/src/bin/DMBS.sh'
+app='/public/home/sry/DMBS/src/bin/{app_name}'.format(app_name=app_name)
 
 
 queue='/public/home/sry/DMBS/src/bin/getQ.py'
 outdir = '/public/home/sry/DMBS/output'
 CAGI_dir = '/public/home/sry/DMBS/dataset/CAGI'
 seq_lst_pth = '{CAGI_dir}/seq.lst'.format(CAGI_dir=CAGI_dir)
+
+aa_123dict = {'A': 'ALA', 'R': 'ARG', 'N': 'ASN', 'D': 'ASP', 'C': 'CYS', 'Q': 'GLN', 'E': 'GLU', 'G': 'GLY', 'H': 'HIS', 'I': 'ILE',
+              'L': 'LEU', 'K': 'LYS', 'M': 'MET', 'F': 'PHE', 'P': 'PRO', 'S': 'SER', 'T': 'THR', 'W': 'TRP', 'Y': 'TYR', 'V': 'VAL'}
 
 with open(seq_lst_pth) as f:
     seq_name_lst = [x.strip() for x in f.readlines()]
