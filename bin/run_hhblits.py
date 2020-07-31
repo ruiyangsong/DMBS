@@ -15,7 +15,7 @@ os.makedirs(logdir, exist_ok=True)
 tag      = "hh.{name}".format(name=data_name)
 err      = "{logdir}/err".format(logdir=logdir)
 out      = "{logdir}/out".format(logdir=logdir)
-walltime = "walltime=24:00:00"
+walltime = "walltime=05:00:00"
 run_prog = "{logdir}/run_prog.sh".format(logdir=logdir)
 
 
