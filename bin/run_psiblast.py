@@ -11,11 +11,11 @@ mod_pth = sys.argv[1:]
 
 logdir = '{outdir}/qsub_blast_log'.format(outdir=outdir)
 os.makedirs(logdir, exist_ok=True)
-
-tag      = "psi.{name}".format(name=data_name)
+tag_pre  = "psi."
+tag      = tag_pre + "{name}".format(name=data_name)
 err      = "{logdir}/err".format(logdir=logdir)
 out      = "{logdir}/out".format(logdir=logdir)
-walltime = "walltime=48:00:00"
+resource = "walltime=24:00:00"
 run_prog = "{logdir}/run_prog.sh".format(logdir=logdir)
 
 
@@ -58,7 +58,8 @@ g.close()
 
 os.system("chmod 755 %s" %run_prog)
 
-os.system(queue)
+hostname = os.popen("{app} {tag_pre}".format(app=queue,tag_pre=tag_pre)).readline().strip()
+resource += ",nodes={hostname}".format(hostname=hostname)
 # MYMAX=100
 # TOTALMAX=384
 # INTERVAL=10
@@ -72,6 +73,6 @@ os.system(queue)
 #     else:
 #         time.sleep(INTERVAL)
 
-os.system("/usr/local/bin/qsub -e %s -o %s -l %s -N %s %s" %(err,out,walltime,tag,run_prog))
+os.system("/usr/local/bin/qsub -e %s -o %s -l %s -N %s %s" %(err,out,resource,tag,run_prog))
 print('{run_prog} successfully submitted!'.format(run_prog=run_prog))
 time.sleep(1)

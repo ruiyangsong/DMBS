@@ -1,6 +1,10 @@
 #!/usr/bin/python
 import os, sys, re, time
 
+if len(sys.argv) == 1:
+    print("Usage: {filename} [tag_prefix]".format(filename=sys.argv[0]))
+    exit(0)
+
 JOBTAGPRE=sys.argv[1] # prefix of special Job_Names that you want to monitor
 
 USER="sry"
