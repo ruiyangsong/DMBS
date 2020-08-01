@@ -30,6 +30,10 @@ while True:
     # up_nodes  = [line.split()[0] for line in os.popen('/usr/local/bin/pbsnodes -l up').readlines()]
     free_nodes = [line.split()[0] for line in os.popen('/usr/local/bin/pbsnodes -l free').readlines()]
 
+    if not free_nodes:
+        time.sleep(INTERVAL)
+        continue
+
     info_str  = os.popen('pbsnodes -a | grep -E "^node| jobs"').readlines()
     for idx in range(len(info_str)):
         if idx % 2 == 0:
