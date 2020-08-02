@@ -58,7 +58,8 @@ g.close()
 
 os.system("chmod 755 %s" %run_prog)
 
-hostname = os.popen("{app} {tag_pre}".format(app=queue,tag_pre=tag_pre)).readline().strip()
+hostname = os.popen("{queue} {tag_pre}".format(queue=queue,tag_pre=tag_pre)).readline().strip()
+print('available node for psiblast:', hostname)
 resource += ",nodes={hostname}".format(hostname=hostname)
 # MYMAX=100
 # TOTALMAX=384
