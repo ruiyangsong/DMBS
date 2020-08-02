@@ -34,7 +34,7 @@ while True:
         time.sleep(INTERVAL)
         continue
 
-    info_str  = os.popen('pbsnodes -a | grep -E "^node| jobs"').readlines()
+    info_str  = os.popen('/usr/local/bin/pbsnodes -a | grep -E "^node| jobs"').readlines()
     for idx in range(len(info_str)):
         if idx % 2 == 0:
             node  = info_str[idx].strip()
