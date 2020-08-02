@@ -11,7 +11,8 @@ app_name=sys.argv[1]
 app='/public/home/sry/DMBS/src/bin/{app_name}'.format(app_name=app_name)
 
 
-queue='/public/home/sry/DMBS/src/bin/getQ.py'
+MASTERPATTERN = " P60484| P51580"
+queue='/public/home/sry/DMBS/src/bin/getQ_master.py'
 outdir = '/public/home/sry/DMBS/output'
 CAGI_dir = '/public/home/sry/DMBS/dataset/CAGI'
 seq_lst_pth = '{CAGI_dir}/seq.lst'.format(CAGI_dir=CAGI_dir)
@@ -62,12 +63,12 @@ for seq_name in seq_name_lst:
         g.writelines('#!/usr/bin/env bash\n')
         g.writelines("echo 'user:' `whoami`\necho 'hostname:' `hostname`\necho 'begin at:' `date`\n")
         g.writelines("echo 'pwd:' `pwd`\n")
-        g.writelines('{app} {seq_name}.{pos}{wt} > {qsub_dir}/run.log\n'.format(app=app,seq_name=seq_name,pos=pos,wt=wt,qsub_dir=qsub_dir))
+        g.writelines('{app} {seq_name}.{pos}{wt} > {qsub_dir}/run_PSI.log\n'.format(app=app,seq_name=seq_name,pos=pos,wt=wt,qsub_dir=qsub_dir))
         g.writelines("echo 'end at:' `date`\n")
         g.close()
         
         os.system('chmod +x {run_prog}'.format(run_prog=run_prog))
-        os.system(queue)
+        os.system('{queue} "{pattern}"'.format(queue=queue,pattern=MASTERPATTERN))
         os.system('qsub -e {err} -o {out} -l {walltime} -N {tag} {prog}'.format(err=err,out=out,walltime=walltime,tag=tag,prog=run_prog))
         strf = time.strftime("%Y-%m-%d %H:%M:%S")
         print('[{strf}] {run_prog} successfully submitted!'.format(strf=strf, run_prog=run_prog))
