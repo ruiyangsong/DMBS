@@ -2,14 +2,14 @@
 import os, sys, re, time
 
 if len(sys.argv) == 1:
-    print("Usage: {filename} [tag_prefix]".format(filename=sys.argv[0]))
+    print("Usage: {filename} [pattern_to_grep]".format(filename=sys.argv[0]))
     exit(0)
 
 PATTERN=sys.argv[1] # pattern of the master Job_Names that you want to monitor
 
 USER="sry"
 MYMAX=80     ##change this to the maximum number of jobs by you
-TOTALMAX=484  ##change this to the maximum number of jobs by all users
+TOTALMAX=384  ##change this to the maximum number of jobs by all users
 INTERVAL=30
 
 MASTERMAX=2  ##change this to the maximum number of master jobs by you
@@ -29,6 +29,7 @@ while True:
 while True:
     pattern = re.compile(PATTERN)#pattern.findall('.'.join(names))
     job_cnt = int(os.popen('/usr/local/bin/qstat -u {USER} | grep -E "{PATTERN}" | wc -l'.format(USER=USER,PATTERN=PATTERN)).readline())
+    # print(job_cnt)
     if job_cnt < MASTERMAX:
         exit(0)
     else:
