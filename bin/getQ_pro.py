@@ -35,17 +35,27 @@ while True:
         continue
 
     info_str  = os.popen('/usr/local/bin/pbsnodes -a | grep -E "^node| jobs"').readlines()
-    for idx in range(len(info_str)):
-        if idx % 2 == 0:
-            node  = info_str[idx].strip()
+
+    if info_str[-1].strip()[:4] == "node" and info_str[-1].strip() in free_nodes:
+        node = info_str[-1].strip()
+        print(node)
+        exit(0)
+
+    for idx in range(len(info_str) - 1):
+        if info_str[idx].strip()[:4] == "node" and info_str[idx + 1].strip()[:4] == "jobs":
+            node = info_str[idx].strip()
             if node in free_nodes:
-                ids   = [id.split('/')[-1].strip() for id in info_str[idx+1].split(',')]
+                ids = [id.split('/')[-1].strip() for id in info_str[idx + 1].split(',')]
                 names = [os.popen('/usr/local/bin/qstat -f {id} | grep Job_Name'.format(id=id)).readline().split('=')[-1].strip() for id in ids]
                 if len(pattern.findall('.'.join(names))) < JOBPERNODE:
                     print(node)
                     exit(0)
-    time.sleep(INTERVAL)
+        elif info_str[idx].strip()[:4] == "node" and info_str[idx + 1].strip()[:4] == "node":
+            node = info_str[idx].strip()
+            if node in free_nodes:
+                print(node)
+                exit(0)
+        else:
+            continue
 
-    # hostname  = [info_str[idx].strip() for idx in range(len(info_str)) if idx % 2 == 0]
-    # job_ids   = list(map(lambda lst: [id.split('/')[-1].strip() for id in lst], [info_str[idx+1].split(',') for idx in range(len(info_str)) if idx % 2 == 0]))
-    # job_names = list(map(lambda lst: [os.popen('/usr/local/bin/qstat -f {id} | grep Job_Name'.format(id=id)).readline().split('=')[-1].strip() for id in lst], job_ids))
+    time.sleep(INTERVAL)
