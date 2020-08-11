@@ -73,4 +73,4 @@ for seq_name in seq_name_lst:
         strf = time.strftime("%Y-%m-%d %H:%M:%S")
         print('[{strf}] {run_prog} successfully submitted!'.format(strf=strf, run_prog=run_prog))
         sys.stdout.flush()
-        time.sleep(5)
+        time.sleep(1)
