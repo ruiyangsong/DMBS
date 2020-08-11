@@ -30,10 +30,12 @@ PSIBLAST_LIB=/library/uniref100/uniref100
 HHBLITS_APP=/public/home/caobx/local/app/hhsuite3/bin/hhblits
 HHBLITS_LIB=/library/uniclust30/uniclust30_2018_08
 HHFILTER_APP=/public/home/caobx/local/app/hhsuite3/bin/hhfilter
-
 # ssite
 PKGDIR=/public/home/sry/opt/I-TASSER4.4
 SSITE_LIB=/public/library
+# NucBind
+NUCDIR=/public/home/sry/opt/NucBind
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # main program begins here, check file
@@ -54,17 +56,24 @@ SSITE_LIB=/public/library
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-# SSITE for native sequence
+# NucBind for native sequence, !!USE SSITE OUTPUT!!
 # ----------------------------------------------------------------------------------------------------------------------
-echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> qsub SSITE for native sequence, see the log dir at $OUTDIR for details"
-if [ ! -e $OUTDIR/ssite/pssm.txt ] || [ ! -e $OUTDIR/ssite/seq.ss ] || [ ! -e $OUTDIR/ssite/Bsites_fpt.dat ]
+echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> check seq.ss, seq.hhm and pssm.txt file at $OUTDIR/ssite"
+if [ ! -e $OUTDIR/ssite/pssm.txt ] || [ ! -e $OUTDIR/ssite/seq.hhm ] || [ ! -e $OUTDIR/ssite/seq.ss ]
 then
-    $BINDIR/run_ssite.py $PKGDIR $SSITE_LIB $OUTDIR $DATANAME $BINDIR/ssite_mod.pl $QUEUE || {
-        echo "[ERROR!] qsub SSITE for native sequence failed, check log dir at $OUTDIR for details"
+    echo "[ERROR!] found no seq.ss or seq.hhm or pssm.txt at $OUTDIR/ssite"
+    exit
+fi
+
+echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> qsub NucBind for native sequence, check log dir at $OUTDIR for details"
+if [ ! -e $OUTDIR/nucbind/5D-out ] || [ ! -e $OUTDIR/nucbind/5R-out ]
+then
+    $BINDIR/run_nucbind.py $NUCDIR $OUTDIR $OUTDIR/nucbind $DATANAME $OUTDIR/ssite/pssm.txt $OUTDIR/ssite/seq.hhm $OUTDIR/ssite/seq.ss $BINDIR/nucbind_mod.pl $QUEUE || {
+        echo "[ERROR!] qsub NucBind for native sequence failed, check log dir at $OUTDIR for details"
         exit
     }
 else
-    echo "[WARNING!] qsub SSITE canceled as pssm.txt, seq.ss, Bsites_fpt.dat already exist at $OUTDIR/ssite"
+    echo "[WARNING!] qsub NucBind canceled as 5D-out, 5R-out already exist at $OUTDIR/nucbind"
 fi
 
 
