@@ -136,7 +136,7 @@ done
 # ----------------------------------------------------------------------------------------------------------------------
 echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> qsub PSI-BLAST for native sequence, see the log dir at $OUTDIR for details"
 OUTBLA=$OUTDIR/seq.blast
-
+OUTPSSM=$OUTDIR/seq.pssm
 OUTBLAALN=$OUTDIR/seq.aln.bla
 
 TEMPBLA=$OUTDIR/seq.bla.tmp
@@ -147,7 +147,7 @@ PSSM_BLA=$OUTDIR/seq_bla.pssm
 HHW_BLA=$OUTDIR/seq_bla.hhw
 if [ ! -e $OUTDIR/seq_bla.pssm ] || [ ! -e $OUTDIR/seq_bla.hhw ]
 then
-    $BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $OUTDIR/seq.fasta $OUTDIR $DATANAME $OUTBLA $QUEUE_PSI $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
+    $BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $OUTDIR/seq.fasta $OUTDIR $DATANAME $OUTBLA $OUTPSSM $QUEUE_PSI $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
         echo '[ERROR!] qsub PSI-BLAST for native sequence failed, check log dir at $OUTDIR for details'
         exit
     }
@@ -178,7 +178,7 @@ do
     #
     echo "[`date +"%Y-%m-%d %H:%M:%S"`] --> qsub PSI-BLAST for $MUTNAME sequence, see the log dir at $MUTDIR for details"
     OUTBLA=$MUTDIR/mut.blast
-
+    OUTPSSM=$MUTDIR/mut.pssm
     OUTBLAALN=$MUTDIR/mut.aln.bla
 
     TEMPBLA=$MUTDIR/mut.bla.tmp
@@ -189,7 +189,7 @@ do
     HHW_BLA=$MUTDIR/mut_bla.hhw
     if [ ! -e $MUTDIR/mut_bla.pssm ] || [ ! -e $MUTDIR/mut_bla.hhw ]
     then
-        $BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $MUTDIR/mut.fasta $MUTDIR $MUTNAME $OUTBLA $QUEUE_PSI $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
+        $BINDIR/run_psiblast.py $PSIBLAST_APP $PSIBLAST_LIB $MUTDIR/mut.fasta $MUTDIR $MUTNAME $OUTBLA $OUTPSSM $QUEUE_PSI $BINDIR/alignblast.pl $OUTBLAALN $BINDIR/convert_aln.pl $TEMPBLA $HHFILTER_APP $FILTEREDBLA $FILTEREDBLAALN $BINDIR/make_pssm.py $PSSM_BLA $HHW_BLA $BINDIR/psiblast_mod.py || {
             echo '[ERROR!] qsub PSI-BLAST for $MUTNAME sequence failed, check log dir at $MUTDIR for details'
             exit
         }
