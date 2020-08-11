@@ -21,8 +21,8 @@ run_prog = "{logdir}/run_prog.sh".format(logdir=logdir)
 
 ## check if the job exists
 user = os.popen("whoami").readline().strip()
-string = '\n'.join(os.popen('/usr/local/bin/qstat -u {user}'.format(user=user)).readlines())
-pattern = re.compile(" "+tag+" ")
+string = '\n'.join(os.popen('/usr/local/bin/qstat -f | grep -B 1 "Job_Owner.*{user}"'.format(user=user)).readlines())
+pattern = re.compile(tag)
 result = pattern.findall(string)
 if result:
     print("job {tag} already running".format(tag=tag))
