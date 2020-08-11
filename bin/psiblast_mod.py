@@ -15,6 +15,7 @@ BLAAPP = "!BLAAPP!"
 SEQPTH = "!SEQPTH!"
 LIBDIR = "!LIBDIR!"
 OUTBLA = "!OUTBLA!"
+OUTPSSM = "!OUTPSSM!"
 # align blast.out to MSA
 ALNAPP = "!ALNAPP!"
 OUTALN = "!OUTALN!"
@@ -36,8 +37,8 @@ HHWBLA  = "!HHWBLA!"
 run_code = 0
 ## run psi-blast
 print('\n@run psi-blast')
-run_code += os.system('{app} -query {seq} -db {lib} -out {out_bla} -num_iterations 3'
-                      .format(app=BLAAPP, seq=SEQPTH, lib=LIBDIR,out_bla=OUTBLA))
+run_code += os.system('{app} -query {seq} -db {lib} -out {out_bla} -out_ascii_pssm {out_pssm} -num_iterations 3'
+                      .format(app=BLAAPP, seq=SEQPTH, lib=LIBDIR, out_bla=OUTBLA, out_pssm=OUTPSSM))
 if run_code != 0:
     exit('[ERROR!] run psi-blast failed')
 

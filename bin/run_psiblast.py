@@ -2,7 +2,7 @@
 
 import os, sys, time, re
 
-blast_app, libdir, seq_path, outdir, data_name, out_blast, queue,\
+blast_app, libdir, seq_path, outdir, data_name, out_blast, out_pssm, queue,\
 alignblast_app, out_aln,\
 convert_aln_app, tmp_bla,\
 hhfilter_app, filtered_blast, filtered_aln,\
@@ -36,6 +36,7 @@ a = a.replace("!BLAAPP!", blast_app)
 a = a.replace("!SEQPTH!", seq_path)
 a = a.replace("!LIBDIR!", libdir)
 a = a.replace("!OUTBLA!", out_blast)
+a = a.replace("!OUTPSSM!", out_pssm)
 # align blast.out to MSA
 a = a.replace("!ALNAPP!", alignblast_app)
 a = a.replace("!OUTALN!", out_aln)
@@ -76,4 +77,4 @@ resource += ",nodes={hostname}".format(hostname=hostname)
 
 os.system("/usr/local/bin/qsub -e %s -o %s -l %s -N %s %s" %(err,out,resource,tag,run_prog))
 print('{run_prog} successfully submitted!'.format(run_prog=run_prog))
-time.sleep(5)
+time.sleep(1)
