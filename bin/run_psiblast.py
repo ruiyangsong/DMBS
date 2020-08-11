@@ -77,4 +77,4 @@ resource += ",nodes={hostname}".format(hostname=hostname)
 
 os.system("/usr/local/bin/qsub -e %s -o %s -l %s -N %s %s" %(err,out,resource,tag,run_prog))
 print('{run_prog} successfully submitted!'.format(run_prog=run_prog))
-time.sleep(1)
+time.sleep(5)
